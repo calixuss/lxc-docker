@@ -9,6 +9,8 @@ RUN cd plexmediaserver; makepkg -si --asroot --noconfirm
 
 #Supervisord settings
 ADD supervisord.conf /etc/supervisord.conf
+ADD entrypoint.sh /entrypoint.sh
+RUN chmod 777 /entrypoint.sh
 
 #Volume to store config files
 VOLUME ["/opt/plexmediaserver"]
@@ -16,4 +18,6 @@ VOLUME ["/opt/plexmediaserver"]
 VOLUME ["/logs"]
 
 EXPOSE 32400
-CMD ["/usr/bin/supervisord"]
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/usr/bin/supervisord", "-c","/etc/supervisord.conf"]
