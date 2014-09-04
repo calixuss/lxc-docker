@@ -1,0 +1,34 @@
+media:
+  image: busybox:latest
+  volumes:
+    - media/:/media
+  command: /bin/sh
+  hostname: media
+
+sabnzbd:
+  build: ../../sabnzbd/
+  ports:
+    - "8080:8080"
+    - "9090:9090"
+  volumes_from:
+    - media
+  hostname: sabnzbd
+
+
+plex:
+  build: ../../plex/
+  net: "host"
+  volumes_from:
+    - media
+  hostname: plex
+
+
+
+nzbdrone:
+  build: ../../nzbdrone/
+  ports:
+    - "8989:8989"
+  volumes_from:
+    - media
+  hostname: nzbdrone
+  

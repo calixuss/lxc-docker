@@ -18,4 +18,4 @@ VOLUME ["/home/drone"]
 
 EXPOSE 8989
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord", "-c","/etc/supervisord.conf"]

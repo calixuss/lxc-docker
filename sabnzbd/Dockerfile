@@ -19,4 +19,4 @@ VOLUME ["/config"]
 
 EXPOSE 8080 9090
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord", "-c","/etc/supervisord.conf"]
