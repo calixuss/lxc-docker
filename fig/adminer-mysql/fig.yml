@@ -1,0 +1,16 @@
+mysql:
+  image: mysql:latest
+  ports:
+    - "3306:3306"
+  environment:
+    - MYSQL_ROOT_PASSWORD=admin14
+  hostname: mysql
+
+
+adminer:
+  image: clue/adminer:latest
+  links:
+    - mysql
+  ports:
+    - "3307:80"
+  hostname: adminer
