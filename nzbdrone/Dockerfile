@@ -1,20 +1,23 @@
-FROM base/devel:latest
-RUN pacman -Syu --noconfirm && \
-    pacman-db-upgrade  && \
-    pacman -Su --noconfirm supervisor && \
-    useradd  nzbdrone && \
-    useradd -m -g wheel  makepkg-user && \
+FROM calixuss/arch
+RUN useradd -m -g wheel  makepkg-user && \
+    useradd -G wheel drone && \
     echo "%wheel    ALL=(ALL) ALL" >> /etc/sudoers && \
     echo "Defaults:makepkg-user    !authenticate" >> /etc/sudoers && \
     curl https://aur.archlinux.org/packages/so/sonarr/sonarr.tar.gz | tar xz && \
     chmod +777 -R /sonarr && \
+    pacman -Sy --noconfirm && \
     su -c"cd /sonarr && makepkg -isc --noconfirm --needed" - makepkg-user && \
     userdel -r makepkg-user && \
-    rm -rf /sonarr
+    rm -rf /sonarr && \
+    pacman -Scc --noconfirm && \
+    rm -rf /usr/share/locale/* && \
+    rm -rf /usr/share/man/* && \
+    rm -rf /root/* && \
+    rm -rf /tmp/*
 
 
-VOLUME ["/home/nzbdrone"]
-
+VOLUME ["/sonarr"]
+VOLUME ["/logs"]
 
 #Supervisord settings
 ADD supervisord.conf /etc/supervisord.conf

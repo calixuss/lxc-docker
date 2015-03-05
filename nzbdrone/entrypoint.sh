@@ -1,4 +1,5 @@
 #!/bin/bash
 set -e
-chown -R nzbdrone:nzbdrone /home/nzbdrone
+chown -R drone:drone /sonarr
+chown -R drone:drone /logs
 exec "$@"

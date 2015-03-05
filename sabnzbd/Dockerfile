@@ -1,10 +1,8 @@
-FROM base/devel
-#Update image
-RUN pacman -Syu --noconfirm && \
-    pacman-db-upgrade  && \
-    pacman -Su --noconfirm supervisor python2-pyopenssl python2-feedparser && \
-    useradd  sabnzbuser && \
+FROM calixuss/arch
+
+RUN pacman -Sy --noconfirm python2-pyopenssl python2-feedparser && \
     useradd -m -g wheel  makepkg-user && \
+    useradd -G wheel sabnzbd && \
     echo "%wheel    ALL=(ALL) ALL" >> /etc/sudoers && \
     echo "Defaults:makepkg-user    !authenticate" >> /etc/sudoers && \
     curl https://aur.archlinux.org/packages/sa/sabnzbd/sabnzbd.tar.gz | tar zx && \
@@ -12,6 +10,11 @@ RUN pacman -Syu --noconfirm && \
     su -c"cd /sabnzbd && makepkg -isc --noconfirm --needed" - makepkg-user && \
     userdel -r makepkg-user && \
     rm -rf /sabnzbd
+    pacman -Scc --noconfirm
+    rm -rf /usr/share/locale/* && \
+    rm -rf /usr/share/man/* && \
+    rm -rf /root/* && \
+    rm -rf /tmp/*
 
 
 #Supervisord settings
