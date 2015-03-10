@@ -1,7 +1,7 @@
 FROM calixuss/arch
 RUN pacman -Sy --noconfirm python2 && \
-    useradd -m -g wheel  makepkg-user && \
-    useradd -G wheel couch && \
+    useradd -m -g wheel -u 1001 makepkg-user && \
+    useradd -G wheel -u 1000 couch && \
     echo "%wheel    ALL=(ALL) ALL" >> /etc/sudoers && \
     echo "Defaults:makepkg-user    !authenticate" >> /etc/sudoers && \
     curl https://aur.archlinux.org/packages/co/couchpotato/couchpotato.tar.gz | tar zx && \

@@ -1,6 +1,6 @@
 FROM calixuss/arch
-RUN useradd -m -g wheel  makepkg-user && \
-    useradd -G wheel drone && \
+RUN useradd -m -g wheel -u 1001 makepkg-user && \
+    useradd -G wheel -u 1000 drone && \
     echo "%wheel    ALL=(ALL) ALL" >> /etc/sudoers && \
     echo "Defaults:makepkg-user    !authenticate" >> /etc/sudoers && \
     curl https://aur.archlinux.org/packages/so/sonarr/sonarr.tar.gz | tar xz && \
